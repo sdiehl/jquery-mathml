@@ -1,0 +1,14 @@
+jquery-mathml.js contains a patched version of jquery 1.4.4 to
+allow MathML objects to be modified more fluidly. 
+
+Working:
+ * selection of MathML nodes by id/class/attribute 
+ * styling MathML nodes ( partial fix for http://bugs.jqueryui.com/ticket/5647 )
+ * isMath query
+
+TODO:
+ * innerHTML
+ * display: none results in error message
+ * add wrappers for native MathML styling attributes
+ ( mathvariant, mathsize, ... ) as specified in: 
+ http://www.w3.org/TR/2009/REC-MathML2-20090303/chapter3.html#presm.commatt
