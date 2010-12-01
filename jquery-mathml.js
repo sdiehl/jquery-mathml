@@ -5469,7 +5469,11 @@ jQuery.each(["height", "width"], function( i, name ) {
 				}
 
 				if ( val < 0 || val == null ) {
-					val = elem.style[ name ];
+                    if ( elem.namespaceURI.indexOf("MathML") > -1 ) {
+                        val = elem.cssProps[ name ]; 
+                    } else { 
+                        val = elem.style[ name ];
+                    }
 
 					// Should return "auto" instead of 0, use 0 for
 					// temporary backwards-compat
