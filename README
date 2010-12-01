@@ -2,6 +2,12 @@ jquery-mathml.js contains a patched version of jquery 1.4.4 to
 allow MathML objects to be modified more fluidly. This is very
 much a proof of concept work.
 
+MathML is only supported by Gecko ( Firefox ) and Opera based 
+browsers at the moment. Internet Explorer and WebKit browsers 
+partially support MathML but their coverage is *extremely* poor.
+
+See: http://trac.webkit.org/wiki/MathML%20Status
+
 Working:
 --------
  * selection of MathML nodes by id/class/attribute 
