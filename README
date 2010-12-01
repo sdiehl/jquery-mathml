@@ -8,6 +8,9 @@ partially support MathML but their coverage is *extremely* poor.
 
 See: http://trac.webkit.org/wiki/MathML%20Status
 
+Demo for Firefox and Opera:
+ * http://sdiehl.github.com/jquery-mathml/
+
 Working:
 --------
  * selection of MathML nodes by id/class/attribute 
