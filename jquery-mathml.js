@@ -96,6 +96,32 @@ var jQuery = function( selector, context ) {
 	// [[Class]] -> type pairs
 	class2type = {};
 
+// Adapted from the MathJax source code, a quick fix to alter the
+// namespaceURI of MathML and change nodeName to lowercase, since
+// jQuery likes to treat everything as straight HTML where the
+// canonical nodeName is upper case.
+convertMath = function (node) {
+   try {
+     if (node.nodeType == 1) {
+
+       var newnode = document.createElementNS("http://www.w3.org/1998/Math/MathML",
+       node.nodeName.toLowerCase());
+
+       for(var i=0; i < node.attributes.length; i++)
+         newnode.setAttribute(node.attributes[i].nodeName, node.attributes[i].nodeValue);
+
+       for (var i=0; i<node.childNodes.length; i++) {
+         var st = node.childNodes[i].nodeValue;
+         if (st==null || st.slice(0,1)!=" " && st.slice(0,1)!="\n")
+         newnode.appendChild(this.convertMath(node.childNodes[i]));
+       }
+      return newnode;
+    } else {
+      return node;
+    }
+   } catch(e) {}
+}
+
 jQuery.fn = jQuery.prototype = {
 	init: function( selector, context ) {
 		var match, elem, ret, doc;
@@ -4926,13 +4952,29 @@ jQuery.fn.extend({
 				});
 			}
 
-			if ( typeof value !== "string" ) {
-				value = jQuery( value ).detach();
+			if ( (typeof value !== "string") ) {
+                if(!this.isMath()) {
+                    value = jQuery( value ).detach();
+                }
 			}
 
 			return this.each(function() {
 				var next = this.nextSibling,
 					parent = this.parentNode;
+
+                // Graft MathML XML
+                if ( this.namespaceURI.indexOf("MathML") > -1 ) {
+
+                    var htmlDocument = parent.ownerDocument;
+                    var mathMLNamespace = "http://www.w3.org/1998/Math/MathML";
+                    var mnElement = document.createElementNS(mathMLNamespace, 'math');
+
+                    mathmlfrag = (new DOMParser()).parseFromString(value, 'text/xml');
+                    newml = convertMath(mathmlfrag.childNodes[0]);
+
+                    parent.replaceChild(newml,this);
+                    return newml;
+                }
 
 				jQuery( this ).remove();
 
@@ -5469,11 +5511,7 @@ jQuery.each(["height", "width"], function( i, name ) {
 				}
 
 				if ( val < 0 || val == null ) {
-                    if ( elem.namespaceURI.indexOf("MathML") > -1 ) {
-                        val = elem.cssProps[ name ]; 
-                    } else { 
-                        val = elem.style[ name ];
-                    }
+					val = elem.style[ name ];
 
 					// Should return "auto" instead of 0, use 0 for
 					// temporary backwards-compat
