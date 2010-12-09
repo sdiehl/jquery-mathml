@@ -5,6 +5,7 @@
   <title>jQuery MathML Demo</title>
   <script type='text/javascript' src='../jquery-mathml.js'></script>
   <script type='text/javascript' src='qtip.js'></script>
+  <script type='text/javascript' src='jquery-ui.min.js'></script>
   
   <style type='text/css'>
 
@@ -18,6 +19,10 @@
        margin: 0;
        height: auto; min-height: auto;
        width: auto; min-width: auto;
+    }
+
+    .selected {
+        border: 2px solid red;
     }
 
 
@@ -47,28 +52,48 @@
           }
         });
 
+        selection_array = [];
+        
+        $('#selectable *').click(
+            function(e){ 
+                $(this).addClass('selected');
+                e.stopPropagation();
+                selection_array.push($(this));
+            }
+        );
+
     });
 
     function ho() {
-        $('mo').css('background-color','yellow');
+        $('mo','#schrodinger').css('background-color','yellow');
     }
 
     function hpsi() {
-        $('*[title=Wavefunction]').css('background-color','green');
+        $('*[title=Wavefunction]','#schrodinger').css('background-color','green');
+    }
+
+    function rlhs() {
+        $('#rhs').replaceWith('<msqrt><mn>2</mn></msqrt>');
+    }
+
+    function rrhs() {
+        $('#lhs').replaceWith('<mfrac><mi>p</mi><mi>q</mi></mfrac>');
+    }
+
+    function replace_with_sqrt() {
+        for(term in selection_array) {
+            selection_array[term].replaceWith('<msqrt>' + Math.floor(Math.random()*10) +'</msqrt>'); 
+        }
     }
 
   </script>
   
 </head>
 <body>
-  <?xml version="1.0" encoding="UTF-8"?> <html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://www.w3.org/1998/Math/MathML" xml:lang="en">
-<head>
-</head>
-<body>
 
 <h1>Schrödinger equation</h1>
 
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML" id="schrodginer">
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML" id="schrodinger">
     <mi title='Imaginary Unit'>i</mi>
     <mo title="Reduced Plank's Constant">ħ</mo>
     <mfrac title="Partial Differential Operator">
@@ -79,6 +104,7 @@
             <mi title="Time">t</mi>
         </mrow>
     </mfrac>
+<body>
     <mn title="Wavefunction">Ψ</mn>
     <mo form="infix">=</mo>
     <mfrac>
@@ -109,9 +135,65 @@
 
 <p>
 <ul>
-    <li><a href="javascript:ho()"> Highlight all operators</a></li>
-    <li><a href="javascript:hpsi()"> Highlight wavefunction </a></li>
+    <li><a href="javascript:ho()">Highlight all operators</a></li>
+    <li><a href="javascript:hpsi()">Highlight wavefunction </a></li>
 </ul>
+</p>
+
+<h1>Manipulation</h1>
+
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML" id="schrodginer">
+    <mi id="rhs">x</mi>
+    <mo form="infix">=</mo>
+    <mi id="lhs">y</mi>
+</math>
+
+<p>
+<ul>
+    <li><a href="javascript:rlhs()">Replace LHS</a></li>
+    <li><a href="javascript:rrhs()">Replace RHS</a></li>
+</ul>
+</p>
+
+<h1>Interactions</h1>
+
+Click to select.
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mrow id="selectable">
+    <mrow>
+      <msub>
+        <mo>∫</mo>
+        <mrow>
+          <mi>M</mi>
+        </mrow>
+      </msub>
+      <mrow>
+        <mi>d</mi>
+        <mo>ω</mo>
+      </mrow>
+    </mrow>
+    <mo>=</mo>
+    <mrow>
+      <msub>
+        <mo>&#x222B;</mo>
+        <mrow>
+          <mo>&#x2202;</mo>
+          <mi>D</mi>
+        </mrow>
+      </msub>
+      <mrow>
+        <mo>ω</mo>
+      </mrow>
+    </mrow>
+  </mrow>
+</math>
+
+<p>
+<ul>
+    <li><a href="javascript:replace_with_sqrt()">Replace Selected</a></li>
+</ul>
+</p>
 
 </body>
 </html>
