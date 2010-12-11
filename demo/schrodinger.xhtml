@@ -1,12 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" 
+               "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd" [
+  <!ENTITY mathml "http://www.w3.org/1998/Math/MathML">
+]>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
   <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8"/>
   <title>jQuery MathML Demo</title>
-  <script type='text/javascript' src='../jquery-mathml.js'></script>
-  <script type='text/javascript' src='qtip.js'></script>
+  <link type="text/css" href="pygments.css" rel="stylesheet"/>
+  <script type='text/javascript' src='jquery-mathml.js'></script>
   
   <style type='text/css'>
+    
+    body {
+        font-family: 'Georgia', serif;
+    }
 
     math > * {
         font-family: STIXGeneral, CMEX10, sans-serif;
@@ -24,35 +32,14 @@
         border: 2px solid red;
     }
 
-
   </style>
 
   
   <!-- This really only works well in Firefox 4 -->
   <script type='text/javascript'>
-
+    // <![CDATA[
 
     $(document).ready(function() {
-        $('math *[title]').css('border','1px dashed #ccc');
-        $('math *[title]').qtip({
-          style: {
-            name: 'cream',
-            tip: true
-          },
-          position: {
-            corner: {
-              target: 'mouse',
-              tooltip: 'bottomMiddle',
-            },
-          },
-          adjust: { 
-            mouse: true,
-          },
-          show: {
-            solo: true,
-          }
-        });
-
         selection_array = [];
         
         $('#selectable *').click(
@@ -65,38 +52,42 @@
 
     });
 
-    function ho() {
-        $('mo','#schrodinger').css('background-color','yellow');
+    function hightlight_ops() {
+        $('mo','#schrodinger').css('background-color','#3DBBED');
     }
 
-    function hpsi() {
-        $('*[title=Wavefunction]','#schrodinger').css('background-color','green');
+    function hightlight_psi() {
+        $('*[title=Wavefunction]','#schrodinger').css('background-color','#FFDF00');
     }
 
-    function rlhs() {
-        $('#rhs').replaceWith('<msqrt><mn>2</mn></msqrt>');
+    function replace_lhs() {
+        $('#rhs').replaceWith("<msqrt>2</msqrt>");
     }
 
-    function rrhs() {
+    function replace_rhs() {
         $('#lhs').replaceWith('<mfrac><mi>p</mi><mi>q</mi></mfrac>');
     }
 
     function replace_with_sqrt() {
         for(term in selection_array) {
-            selection_array[term].replaceWith('<msqrt>' + Math.floor(Math.random()*10) +'</msqrt>'); 
+            var rand = Math.floor(Math.random()*10);
+            selection_array[term].replaceWith('<msqrt>' + rand +'</msqrt>'); 
         }
     }
 
+    // ]]>
   </script>
   
 </head>
 <body>
 
-<h1>Schrödinger equation</h1>
+<h1>Selectors</h1>
+
+This is the Schrödinger equation!
 
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML" id="schrodinger">
     <mi title='Imaginary Unit'>i</mi>
-    <mo title="Reduced Plank's Constant">ħ</mo>
+    <mi title="Reduced Plank's Constant">ħ</mi>
     <mfrac title="Partial Differential Operator">
         <mo>∂</mo>
         <mrow>
@@ -135,9 +126,19 @@
 
 <p>
 <ul>
-    <li><a href="javascript:ho()">Highlight all operators</a></li>
-    <li><a href="javascript:hpsi()">Highlight wavefunction </a></li>
+    <li><a href="javascript:hightlight_ops()">Highlight all operators</a></li>
+    <li><a href="javascript:hightlight_psi()">Highlight wavefunction </a></li>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">hightlight_ops</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;mo&#39;</span><span class="p">,</span><span class="s1">&#39;#schrodinger&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;background-color&#39;</span><span class="p">,</span><span class="s1">&#39;#3DBBED&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">hightlight_psi</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;*[title=Wavefunction]&#39;</span><span class="p">,</span><span class="s1">&#39;#schrodinger&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;background-color&#39;</span><span class="p">,</span><span class="s1">&#39;green&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
 </ul>
+
 </p>
 
 <h1>Manipulation</h1>
@@ -152,14 +153,22 @@
 
 <p>
 <ul>
-    <li><a href="javascript:rlhs()">Replace LHS</a></li>
-    <li><a href="javascript:rrhs()">Replace RHS</a></li>
+    <li><a href="javascript:replace_lhs()">Replace LHS</a></li>
+    <li><a href="javascript:replace_rhs()">Replace RHS</a></li>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">replace_lhs</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#rhs&#39;</span><span class="p">).</span><span class="nx">replaceWith</span><span class="p">(</span><span class="s2">&quot;&lt;msqrt&gt;2&lt;/msqrt&gt;&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">replace_rhs</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$ω</span><span class="p">(</span><span class="s1">&#39;#lhs&#39;</span><span class="p">).</span><span class="nx">replaceWith</span><span class="p">(</span><span class="s1">&#39;&lt;mfrac&gt;&lt;mi&gt;p&lt;/mi&gt;&lt;mi&gt;q&lt;/mi&gt;&lt;/mfrac&gt;&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+ω
 </ul>
 </p>
 
 <h1>Interactions</h1>
-
-Click to select.
 
 <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
   <mrow id="selectable">
@@ -193,9 +202,34 @@ Click to select.
 
 <p>
 <ul>
-    <li><a href="javascript:replace_with_sqrt()">Replace Selected</a></li>
+    <li>Click an element to select...</li>
+    <li><a href="javascript:replace_with_sqrt()">Then click here to swap.</a></li>
+
+<div class="highlight"><pre><span class="nx">selection_array</span> <span class="o">=</span> <span class="p">[];</span>
+
+<span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#selectable *&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span>
+    <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span> 
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;selected&#39;</span><span class="p">);</span>
+        <span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
+        <span class="nx">selection_array</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+
+
+<span class="kd">function</span> <span class="nx">replace_with_sqrt</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">for</span><span class="p">(</span><span class="nx">term</span> <span class="k">in</span> <span class="nx">selection_array</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">rand</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="mi">10</span><span class="p">);</span>
+        <span class="nx">selection_array</span><span class="p">[</span><span class="nx">term</span><span class="p">].</span><span class="nx">replaceWith</span><span class="p">(</span><span class="s1">&#39;&lt;msqrt&gt;&#39;</span> <span class="o">+</span> <span class="nx">rand</span> <span class="o">+</span><span class="s1">&#39;&lt;/msqrt&gt;&#39;</span><span class="p">);</span> 
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
 </ul>
 </p>
+
+<a href="https://github.com/sdiehl/jquery-mathml">
+<img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" style="position: fixed; top: 0; right: 0; border: 0;"/>
+</a>
 
 </body>
 </html>
