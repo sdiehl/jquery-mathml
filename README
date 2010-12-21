@@ -8,7 +8,7 @@ partially support MathML but their coverage is *extremely* poor.
 
 See: http://trac.webkit.org/wiki/MathML%20Status
 
-Demo for Firefox and Opera:
+DEMO FOR FIREFOX 3.6+:
  * http://sdiehl.github.com/jquery-mathml/
 
 Working:
@@ -24,6 +24,16 @@ TODO:
  * add wrappers for native MathML styling attributes
  ( mathvariant, mathsize, ... ) as specified in: 
  http://www.w3.org/TR/2009/REC-MathML2-20090303/chapter3.html#presm.commatt
+
+Note:
+--------
+
+Firefox 4 beta is lightyears ahead of other browsers in terms of
+MathML support, for example if you install the STIX fonts and
+take a look at the following page you'll find it's nearly
+identical to LaTeX.
+
+* https://eyeasme.com/Joe/MathML/HTML5_MathML_browser_test.html
 
 License:
 --------
