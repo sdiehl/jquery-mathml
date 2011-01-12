@@ -28,6 +28,13 @@
        width: auto; min-width: auto;
     }
 
+    #container {
+       margin-left: 15%;
+       margin-right: 15%;
+       min-width: 850px;
+       margin-top: 50px;
+    }
+
     .selected {
         border: 2px solid red;
     }
@@ -81,14 +88,13 @@
 </head>
 <body>
 
+<div id="container">
+
 <h1>Browser Compatibility</h1>
 
 <p>
 If the Math on this page doesn't render properly you're probably using either Chrome, 
 Safari, or Opera which sadly don't support MathML very well.
-
-MathML is only supported in Firefox 3.5+ and even then it must be 
-served <b>in a strict XHTML page</b> with a mixed doctype which is unpleasant.
 </p>
 
 <p>
@@ -100,7 +106,7 @@ the <a href="http://www.mathjax.org"> MathJax</a> project.
 
 <p>
 The next generation browsers, namely Firefox 4 and nightly Webkit builds, now support
-MathML in the HTML5 doctype eliminating the need for XHTML.
+MathML in the HTML5 doctype eliminating the need to serve content in XHTML.
 </p>
 
 <h1>Selectors</h1>
@@ -252,6 +258,7 @@ This is the Schrödinger equation!
 <img alt="Fork me on GitHub" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" style="position: fixed; top: 0; right: 0; border: 0;"/>
 </a>
 
+</div>
 </body>
 </html>
 
